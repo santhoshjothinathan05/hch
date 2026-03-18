@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hepz's Content House | Discovery Deck 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,500;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* ────────────────────────────────────
+   PREMIUM TOKENS & CONTRAST FIXES
+──────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --bg:    #0a0a0a;
+  --bg2:   #121212;
+  --bg3:   #1a1a1a;
+  
+  /* Borders & Lines - Improved visibility */
+  --line:  rgba(255, 255, 255, 0.12);
+  --line2: rgba(255, 255, 255, 0.20);
+  
+  /* Typography Colors - WCAG Compliant Contrast */
+  --w:     #f4f2ec; /* Soft stark white */
+  --w2:    #d1cece; /* Secondary emphasis */
+  --w3:    #a3a09a; /* Body text - highly legible against black */
+  --w4:    #827e77; /* Muted labels */
+  
+  /* Utilities */
+  --ease:  cubic-bezier(0.16, 1, 0.3, 1);
+  --pad:   clamp(24px, 6vw, 80px);
+}
+
+/* ────────────────────────────────────
+   BASE
+──────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+body { 
+  font-family: 'Inter', sans-serif; 
+  font-weight: 300; 
+  background: var(--bg); 
+  color: var(--w); 
+  overflow-x: hidden; 
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ────────────────────────────────────
+   CURSOR (Bulletproof & Expanded)
+──────────────────────────────────── */
+@media (pointer: fine) {
+  body { cursor: none; }
+  #cd, #cr { display: block; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+  #cd { width: 6px; height: 6px; background: var(--w); border-radius: 50%; mix-blend-mode: difference; }
+  #cr { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.25); border-radius: 50%; transition: width .3s var(--ease), height .3s var(--ease), background .3s var(--ease), border-color .3s var(--ease); mix-blend-mode: difference; }
+  
+  /* Expands elegantly over interactive elements */
+  body:has(button:hover, a:hover, .ocard:hover, .nc:hover, .prob:hover, .cap:hover, .tm:hover, .testi-card:hover, .pip:hover) #cr { 
+    width: 64px; height: 64px; background: rgba(255,255,255,0.08); border-color: transparent;
+  }
+}
+@media (pointer: coarse) {
+  #cd, #cr { display: none !important; }
+}
+
+/* ────────────────────────────────────
+   NAV DOTS
+──────────────────────────────────── */
+#nav { position: fixed; right: 24px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 800; }
+.pip { width: 6px; height: 6px; border-radius: 50%; background: var(--w4); border: none; transition: background .3s, transform .3s; position: relative; }
+.pip::after { 
+  content: attr(data-l); position: absolute; right: 16px; top: 50%; transform: translateY(-50%); 
+  font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: .05em; 
+  color: var(--w); background: var(--bg2); padding: 4px 8px; border-radius: 4px; border: 1px solid var(--line);
+  white-space: nowrap; opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; 
+}
+@media (pointer: fine) {
+  .pip:hover::after { opacity: 1; transform: translateY(-50%) translateX(-4px); }
+  .pip { cursor: none; }
+}
+.pip.on { background: var(--w); transform: scale(1.5); }
+#cn { position: fixed; bottom: 24px; right: 24px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: .15em; color: var(--w4); z-index: 800; }
+
+/* ────────────────────────────────────
+   SLIDE SHELL (Consistent Architecture)
+──────────────────────────────────── */
+.s {
+  width: 100vw; min-height: 100svh;
+  position: relative; overflow-x: hidden; overflow-y: auto;
+  scroll-snap-align: start; scroll-snap-stop: always;
+  background: var(--bg);
+  display: flex; flex-direction: column;
+}
+.s > * { flex-shrink: 0; }
+.s.bg2 { background: var(--bg2); }
+
+/* footer strip - Made legible and pinned to natural bottom */
+.ft { margin-top: auto; height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 0 var(--pad); border-top: 1px solid var(--line); z-index: 10; width: 100%; flex-shrink: 0; background: var(--bg); }
+.s.bg2 .ft { background: var(--bg2); }
+.ft span { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: .1em; color: var(--w4); text-transform: uppercase; }
+
+/* ────────────────────────────────────
+   REVEAL (Smoother Timing)
+──────────────────────────────────── */
+.r { opacity: 0; transform: translateY(20px); transition: opacity .8s var(--ease), transform .8s var(--ease); will-change: transform, opacity; }
+.r.in { opacity: 1; transform: translateY(0); }
+.d1{transition-delay:.00s} .d2{transition-delay:.10s} .d3{transition-delay:.20s}
+.d4{transition-delay:.30s} .d5{transition-delay:.40s} .d6{transition-delay:.50s}
+
+/* ────────────────────────────────────
+   TYPE SYSTEM (Legible & Scaled)
+──────────────────────────────────── */
+.bb  { font-family: 'Bebas Neue', Impact, sans-serif; letter-spacing: .03em; line-height: .9; }
+.pf  { font-family: 'Playfair Display', Georgia, serif; }
+.pfi { font-family: 'Playfair Display', Georgia, serif; font-style: italic; }
+.lbl { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--w3); }
+
+/* Universal Watermark Standard */
+.wm-group { display: flex; flex-direction: column; gap: 4px; text-align: left; }
+.wm-n { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 400; color: var(--w); }
+.wm-t { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--w4); }
+
+/* Absolute watermarks for center slides */
+.abs-wm { position: absolute; top: 40px; left: var(--pad); z-index: 5; }
+
+/* ════════════════════════════════════
+   S01 — COVER
+════════════════════════════════════ */
+#s01 { justify-content: space-between; }
+.s01-top { display: flex; align-items: flex-start; justify-content: space-between; padding: 40px var(--pad) 0; }
+.s01-wm { display: flex; flex-direction: column; gap: 4px; }
+.s01-wm-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 400; color: var(--w); }
+.s01-wm-tag  { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--w4); }
+.s01-yr { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: .15em; text-transform: uppercase; color: var(--w3); padding-top: 4px; text-align: right; }
+
+.s01-hero { flex: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 40px var(--pad); gap: 0; margin: auto 0; }
+.s01-pre { margin-bottom: 16px; }
+.s01-line1 { font-size: clamp(64px, 12vw, 160px); color: var(--w); display: block; word-break: break-word; line-height: 0.85; margin-bottom: 8px; }
+.s01-line2 { display: flex; align-items: baseline; gap: 16px; width: 100%; flex-wrap: wrap; }
+.s01-line2-bb { font-size: clamp(64px, 12vw, 160px); color: var(--w); line-height: 0.85; }
+.s01-line3 { font-size: clamp(48px, 9vw, 110px); color: var(--w2); display: block; font-weight: 300; font-family: 'Playfair Display', serif; font-style: italic; line-height: 1; }
+
+@media (min-width: 768px) {
+  .s01-line2 { gap: 24px; flex-wrap: nowrap; }
+}
+
+/* ════════════════════════════════════
+   S02, S05, S09, S14 — CENTERED SLIDES
+════════════════════════════════════ */
+.center-slide { align-items: center; justify-content: center; text-align: center; padding: 100px 0; }
+.center-inner { max-width: 900px; display: flex; flex-direction: column; align-items: center; padding: 0 var(--pad); margin: auto 0; }
+.center-h1 { font-size: clamp(56px, 10vw, 130px); color: var(--w); display: block; line-height: 1; }
+.center-h2 { font-size: clamp(40px, 7.5vw, 96px); color: var(--w3); display: block; margin-bottom: 40px; font-weight: 400; line-height: 1.1; }
+.center-rule { width: 48px; height: 1px; background: var(--w4); margin: 0 auto 40px; }
+.center-pitch { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(20px, 2.5vw, 28px); font-weight: 400; line-height: 1.6; color: var(--w2); max-width: 48ch; margin-bottom: 24px; }
+.center-kicker { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; letter-spacing: .1em; color: var(--w3); text-transform: uppercase; }
+
+/* ════════════════════════════════════
+   S03 — BRANDS
+════════════════════════════════════ */
+.s03-head { padding: 0 var(--pad); margin-bottom: 48px; }
+.s03-h1 { font-size: clamp(48px, 9.5vw, 116px); color: var(--w); display: block; line-height: 1;}
+.s03-h2 { font-size: clamp(36px, 7.5vw, 90px); color: var(--w3); display: block; font-weight: 400; line-height: 1;}
+.mwrap { overflow: hidden; padding: 16px 0; position: relative; }
+.mwrap::before, .mwrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 100px; z-index: 2; pointer-events: none; }
+.mwrap::before { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
+.mwrap::after  { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
+.mrow { display: flex; width: max-content; animation: roll 35s linear infinite; }
+.mrow.rev { animation-direction: reverse; animation-duration: 40s; }
+.mrow:hover { animation-play-state: paused; }
+@keyframes roll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.mc { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: .15em; text-transform: uppercase; color: var(--w3); white-space: nowrap; padding: 0 32px; display: flex; align-items: center; gap: 32px; }
+.mc::after { content: '·'; color: var(--w4); font-size: 20px; }
+.s03-count { padding: 32px var(--pad) 0; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--w4); }
+
+/* ════════════════════════════════════
+   S04 — OFFERS
+════════════════════════════════════ */
+.s04-wm { position: sticky; top: 0; background: var(--bg); z-index: 5; padding: 48px var(--pad) 24px; border-bottom: 1px solid var(--line); flex-shrink: 0; display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+.s04-h1 { font-size: clamp(48px, 7vw, 90px); color: var(--w); display: block; line-height: 0.9;}
+.s04-h2 { font-size: clamp(36px, 5vw, 64px); color: var(--w3); display: block; font-weight: 400; line-height: 1;}
+
+@media (min-width: 768px) {
+  .s04-wm { flex-direction: row; align-items: flex-end; justify-content: space-between; gap: 0; }
+  .s04-wm .wm-group { text-align: right; }
+}
+
+.ostack { display: flex; flex-direction: column; gap: 24px; padding: 32px var(--pad) 64px; }
+.ocard { background: var(--bg2); border: 1px solid var(--line2); border-radius: 16px; overflow: hidden; transition: transform .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease); }
+.ocard:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.4); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+.ocard-top { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; padding: 32px; }
+.ocard-tl { flex: 1; }
+.ocard-tag { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--w3); margin-bottom: 12px; }
+.ocard-name { font-family: 'Inter', sans-serif; font-size: 24px; font-weight: 500; color: var(--w); margin-bottom: 8px; }
+.ocard-desc { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; color: var(--w3); line-height: 1.6; max-width: 40ch; }
+.ocard-pr { text-align: left; flex-shrink: 0; }
+.ocard-price { font-family: 'Bebas Neue', sans-serif; font-size: 44px; letter-spacing: .02em; color: var(--w); display: block; line-height: 1; }
+.ocard-per { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: var(--w4); display: block; margin-top: 6px; }
+
+@media (min-width: 768px) {
+  .ocard-top { flex-direction: row; justify-content: space-between; gap: 32px; }
+  .ocard-pr { text-align: right; }
+}
+
+.ocard-div { height: 1px; background: var(--line); margin: 0 32px; }
+.ocard-items { padding: 24px 32px 32px; display: grid; grid-template-columns: 1fr; gap: 16px; }
+
+@media (min-width: 768px) { .ocard-items { grid-template-columns: repeat(2, 1fr); gap: 12px 32px; } }
+@media (min-width: 1024px) { .ocard-items { grid-template-columns: repeat(4, 1fr); } }
+
+.oi { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; color: var(--w2); display: flex; gap: 12px; line-height: 1.5; align-items: flex-start; }
+.oi::before { content: '✦'; flex-shrink: 0; color: var(--w4); font-size: 10px; margin-top: 3px; }
+
+.mpop { display: inline-block; background: rgba(255,255,255,0.1); color: var(--w); font-weight: 500; padding: 6px 14px; font-size: 10px; border-radius: 20px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 16px; }
+
+.pp-grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); margin: 0 32px 32px; border-radius: 8px; overflow: hidden; }
+@media (min-width: 768px) { .pp-grid { grid-template-columns: 1fr 1fr; } }
+.pp2 { background: var(--bg2); padding: 24px; }
+.pp2l { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--w); margin-bottom: 16px; }
+.pp2-items { display: flex; flex-direction: column; gap: 12px; }
+
+/* ════════════════════════════════════
+   S06-S08 — CASE STUDIES
+════════════════════════════════════ */
+.cs-top { padding: 48px var(--pad) 32px; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 32px; flex-shrink: 0; }
+.cs-name-bb { font-size: clamp(48px, 7vw, 88px); color: var(--w); display: block; line-height: 0.9; margin-bottom: 4px;}
+.cs-name-pf { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(32px, 5vw, 64px); color: var(--w2); display: block; line-height: 1; }
+.cs-handle { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: .05em; color: var(--w2); margin-top: 16px; display: block; }
+.cs-niche  { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 400; color: var(--w3); line-height: 1.6; margin-top: 4px; display: block; max-width: 50ch; }
+.cs-top-r { display: flex; flex-wrap: wrap; gap: 24px 48px; flex-shrink: 0; align-items: flex-end; }
+.cs-stat-n { font-family: 'Bebas Neue', sans-serif; font-size: 44px; letter-spacing: .02em; color: var(--w); display: block; line-height: 1; margin-bottom: 4px; }
+.cs-stat-l { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--w4); }
+
+@media (min-width: 768px) {
+  .cs-top { flex-direction: row; align-items: flex-end; gap: 40px; }
+  .cs-top-r { gap: 48px; }
+}
+
+.narr-row { display: grid; grid-template-columns: 1fr; gap: 0; flex: 1; }
+@media (min-width: 1024px) { .narr-row { grid-template-columns: repeat(3, 1fr); } }
+
+.nc { padding: 40px var(--pad); border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 12px; transition: background .3s var(--ease); }
+.nc:hover:not(.pk) { background: var(--bg2); }
+.nc:last-child { border-bottom: none; }
+@media (min-width: 1024px) {
+  .nc { border-bottom: none; border-right: 1px solid var(--line); }
+  .nc:last-child { border-right: none; }
+}
+
+.nc.pk { background: var(--bg3); color: var(--w); border-color: var(--line2); }
+.nc-phase { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--w3); }
+.nc.pk .nc-phase { color: var(--w2); }
+.nc-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(56px, 6vw, 80px); letter-spacing: .02em; color: var(--w); line-height: 0.9; margin-top: 8px; }
+.nc.pk .nc-num { color: var(--w); }
+.nc-unit { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: .05em; color: var(--w3); margin-top: -4px; text-transform: uppercase; }
+.nc.pk .nc-unit { color: var(--w3); }
+.nc-desc { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 400; line-height: 1.6; color: var(--w2); margin-top: 12px; max-width: 35ch; }
+.nc.pk .nc-desc { color: var(--w); font-weight: 400; }
+
+/* ════════════════════════════════════
+   S10 — THREE THINGS & S11 WHAT WE CAN DO
+════════════════════════════════════ */
+.grid-head { padding: 48px var(--pad) 40px; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 32px; flex-shrink: 0; }
+.grid-h1 { font-size: clamp(40px, 6vw, 72px); color: var(--w); display: block; margin-top: 16px; line-height: 0.9; }
+.grid-h2 { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(32px, 5vw, 60px); color: var(--w3); display: block; font-weight: 400; line-height: 1; }
+.grid-note { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 400; letter-spacing: .05em; color: var(--w4); text-align: left; line-height: 1.6; border-left: 2px solid var(--line2); padding-left: 16px; flex-shrink: 0; }
+.grid-note.alt { font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; text-transform: none; letter-spacing: normal; color: var(--w3); }
+
+@media (min-width: 768px) {
+  .grid-head { flex-direction: row; align-items: flex-end; gap: 48px; }
+  .grid-note { text-align: right; max-width: 30ch; }
+  .grid-note.alt { text-align: left; max-width: 40ch; }
+}
+
+.g-row { display: grid; grid-template-columns: 1fr; flex: 1; }
+@media (min-width: 1024px) { .g-row.cols-3 { grid-template-columns: repeat(3, 1fr); } .g-row.cols-4 { grid-template-columns: repeat(4, 1fr); } }
+
+.g-card { padding: 40px var(--pad); border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 16px; position: relative; overflow: hidden; transition: background .3s; }
+.g-card:hover { background: var(--bg2); }
+.g-card:last-child { border-bottom: none; }
+
+@media (min-width: 768px) {
+  .g-row.cols-4 .g-card { border-right: 1px solid var(--line); }
+  .g-row.cols-4 .g-card:nth-child(even) { border-right: none; }
+  .g-row.cols-4 .g-card:nth-last-child(-n+2) { border-bottom: none; }
+}
+@media (min-width: 1024px) {
+  .g-card { border-bottom: none !important; border-right: 1px solid var(--line); }
+  .g-row.cols-4 .g-card:nth-child(even) { border-right: 1px solid var(--line); }
+  .g-card:last-child { border-right: none; }
+}
+
+.prob.custom { background: var(--bg2); }
+.prob-bg { position: absolute; top: -16px; right: 24px; font-family: 'Bebas Neue', sans-serif; font-size: 160px; color: rgba(255,255,255,0.02); line-height: 1; pointer-events: none; }
+.prob-tag { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--w4); }
+.prob-title { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 500; color: var(--w); line-height: 1.3; }
+.prob-body { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; line-height: 1.6; color: var(--w3); }
+
+.cap-n { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--w4); line-height: 1; margin-bottom: 8px; }
+.cap-t { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500; color: var(--w); line-height: 1.4; }
+.cap-b { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; line-height: 1.6; color: var(--w3); }
+
+/* ════════════════════════════════════
+   S12 — TESTIMONIAL TICKER
+════════════════════════════════════ */
+.testi-mwrap { overflow: hidden; padding: 40px 0; position: relative; width: 100%; margin: auto 0; }
+.testi-mwrap::before, .testi-mwrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2; pointer-events: none; }
+.testi-mwrap::before { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
+.testi-mwrap::after  { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
+.testi-mrow { display: flex; width: max-content; animation: roll 50s linear infinite; gap: 24px; padding: 0 12px; flex-shrink: 0; }
+.testi-mrow:hover { animation-play-state: paused; }
+.testi-card { background: var(--bg2); border: 1px solid var(--line2); border-radius: 12px; padding: 32px 40px; width: 450px; display: flex; flex-direction: column; gap: 24px; white-space: normal; transition: border-color .3s; flex-shrink: 0; }
+.testi-card:hover { border-color: rgba(255,255,255,0.4); }
+.t2qm { font-family: 'Bebas Neue', sans-serif; font-size: 80px; color: var(--w4); line-height: 0.6; opacity: 0.5; margin-bottom: -16px; }
+.t2txt { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 400; font-style: italic; line-height: 1.7; color: var(--w2); flex: 1; }
+.t2attr { display: flex; align-items: center; gap: 16px; margin-top: 16px; padding-top: 24px; border-top: 1px solid var(--line); }
+.t2av { width: 48px; height: 48px; border-radius: 50%; background: var(--bg3); display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: var(--w3); flex-shrink: 0; border: 1px solid var(--line); }
+.t2nm { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: var(--w); display: block; margin-bottom: 4px; }
+.t2rl { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 400; color: var(--w4); display: block; line-height: 1.4; }
+
+/* ════════════════════════════════════
+   S13 — TEAM
+════════════════════════════════════ */
+.tm.f { background: var(--bg2); }
+.tm-av { width: 56px; height: 56px; border-radius: 50%; background: var(--bg3); display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: var(--w3); margin-bottom: 24px; border: 1px solid var(--line); }
+.tm-role { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--w4); margin-bottom: 8px; }
+.tm-name { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: .02em; color: var(--w); margin-bottom: 20px; line-height: 1; }
+.tm-rule { height: 1px; background: var(--line); margin-bottom: 20px; }
+.tm-desc { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; line-height: 1.6; color: var(--w3); flex: 1; }
+.tm-ph { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--w4); font-style: italic; margin-top: 24px; }
+
+</style>
+</head>
+<body>
+
+<div id="cd"></div><div id="cr"></div>
+<nav id="nav"></nav>
+<div id="cn">01 / 14</div>
+
+<!-- ══════════════════
+     01 — COVER
+══════════════════ -->
+<section class="s" id="s01">
+  <div class="s01-top r d1">
+    <div class="wm-group">
+      <span class="wm-n">Hepz's Content House</span>
+      <span class="wm-t">Discovery Deck · 2025</span>
+    </div>
+    <span class="s01-yr">Instagram Strategy & Content Agency</span>
+  </div>
+
+  <div class="s01-hero">
+    <p class="lbl s01-pre r d2">We grow</p>
+    <span class="bb s01-line1 r d3">INSTAGRAM BRANDS</span>
+    <div class="s01-line2 r d4">
+      <span class="bb s01-line2-bb">THAT</span>
+      <span class="pfi s01-line3">convert.</span>
+    </div>
+  </div>
+
+  <div class="ft"><span>Hepz's Content House</span><span>hephzii0405@gmail.com · +91 97904 29699</span></div>
+</section>
+
+<!-- ══════════════════
+     02 — WHO WE ARE
+══════════════════ -->
+<section class="s center-slide" id="s02">
+  <div class="abs-wm r d1 wm-group">
+    <span class="wm-n">Hepz's Content House</span>
+    <span class="wm-t">Who we are</span>
+  </div>
+  <div class="center-inner">
+    <span class="bb center-h1 r d2">WHO WE ARE.</span>
+    <span class="pfi center-h2 r d3">A creative agency with a purpose.</span>
+    <div class="center-rule r d4"></div>
+    <p class="center-pitch r d5">We take complete creative and operational ownership from ideation to execution to results across Instagram, LinkedIn, YouTube, and your websites.</p>
+    <p class="center-kicker r d6">Your focus is on your business. We make sure the world sees it.</p>
+  </div>
+  <div class="ft"><span>Hepz's Content House</span><span>hephzii0405@gmail.com · +91 97904 29699</span></div>
+</section>
+
+<!-- ══════════════════
+     03 — BRANDS
+══════════════════ -->
+<section class="s center-slide" id="s03" style="padding-bottom: 0;">
+  <div class="abs-wm r d1 wm-group">
+    <span class="wm-n">Hepz's Content House</span>
+    <span class="wm-t">Brands we've worked with</span>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:0;padding-bottom:28px;width:100%;">
+    <div class="s03-head">
+      <span class="bb s03-h1 r d2">TRUSTED BY</span>
+      <span class="pfi s03-h2 r d3">great brands.</span>
+    </div>
+    <div class="mwrap r d4" style="margin-top:24px;"><div class="mrow" id="mr1"></div></div>
+    <div class="mwrap r d5" style="margin-top:10px;"><div class="mrow rev" id="mr2"></div></div>
+    <p class="s03-count r d6">30+ brands and creators · India, US & UK</p>
+  </div>
+  <div class="ft"><span>Hepz's Content House</span><span>hephzii0405@gmail.com · +91 97904 29699</span></div>
+</section>
+
+<!-- ══════════════════
+     04 — OFFERS
+══════════════════ -->
+<section class="s" id="s04">
+  <div class="s04-wm">
+    <div>
+      <span class="bb s04-h1 r d1">THREE WAYS IN.</span>
+      <span class="pfi s04-h2 r d2">One direction.</span>
+    </div>
+    <div class="wm-group r d1">
+      <span class="wm-n">Hepz's Content House</span>
+      <span class="wm-t">How to work with us</span>
+    </div>
+  </div>
+  <div class="ostack">
+    <div class="ocard r d3">
+      <div class="ocard-top">
+        <div class="ocard-tl">
+          <p class="ocard-tag">Tier 01</p>
+          <p class="ocard-name">Strategy & Advisory</p>
+          <p class="ocard-desc">You and your team execute. We direct every decision.</p>
+        </div>
+        <div class="ocard-pr"><span class="ocard-price">₹20-30K</span><span class="ocard-per">per month</span></div>
+      </div>
+      <div class="ocard-div"></div>
+      <div class="ocard-items">
+        <div class="oi">2-3 strategy calls per week (1 hr each)</div>
+        <div class="oi">Full content strategy & ideation</div>
+        <div class="oi">Complete content calendar</div>
+        <div class="oi">Scripting & caption copy</div>
+        <div class="oi">Team collaboration & creative direction</div>
+        <div class="oi">Bi-weekly performance reviews</div>
+        <div class="oi">WhatsApp support</div>
+        <div class="oi">Paid consultation included</div>
+      </div>
+    </div>
+    <div class="ocard r d4">
+      <div class="ocard-top">
+        <div class="ocard-tl">
+          <span class="mpop">Most popular</span>
+          <p class="ocard-tag">Tier 02</p>
+          <p class="ocard-name">Full Takeover</p>
+          <p class="ocard-desc">We own your Instagram entirely. You show up, we handle everything else.</p>
+        </div>
+        <div class="ocard-pr"><span class="ocard-price">₹40-60K</span><span class="ocard-per">per month · 3 mo min</span></div>
+      </div>
+      <div class="ocard-div"></div>
+      <div class="ocard-items">
+        <div class="oi">Full content strategy & ideation</div>
+        <div class="oi">Complete content calendar</div>
+        <div class="oi">Full scripting in your voice</div>
+        <div class="oi">Video editing & graphics</div>
+        <div class="oi">Shoot direction</div>
+        <div class="oi">Carousels & graphic design</div>
+        <div class="oi">Posting + story management</div>
+        <div class="oi">Community management</div>
+        <div class="oi">Weekly strategy call</div>
+        <div class="oi">Monthly analytics & reporting</div>
+      </div>
+    </div>
+    <div class="ocard r d5">
+      <div class="ocard-top">
+        <div class="ocard-tl">
+          <p class="ocard-tag">Pilot · 3 weeks - Start here</p>
+          <p class="ocard-name">Strategy Sprint</p>
+          <p class="ocard-desc">Strategy + live execution. Experience the retainer before you commit to one.</p>
+        </div>
+        <div class="ocard-pr"><span class="ocard-price">₹15K</span><span class="ocard-per">one-time · 3 weeks</span></div>
+      </div>
+      <div class="ocard-div"></div>
+      <div class="pp-grid">
+        <div class="pp2">
+          <p class="pp2l">Week 1: The plan</p>
+          <div class="pp2-items"><div class="oi">Full account audit</div><div class="oi">2hr recorded deep dive</div><div class="oi">90-day content roadmap</div><div class="oi">Hook & pillar framework</div><div class="oi">Written summary doc</div></div>
+        </div>
+        <div class="pp2">
+          <p class="pp2l">Weeks 2-3: The taste</p>
+          <div class="pp2-items"><div class="oi">5 reels scripted by team</div><div class="oi">2 reels edited by team</div><div class="oi">Shoot direction & brief</div><div class="oi">Story strategy (2 weeks)</div><div class="oi">Performance check-in call</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ft"><span>Hepz's Content House</span><span>hephzii0405@gmail.com · +91 97904 29699</span></div>
+</section>
+
+<!-- ══════════════════
+     05 — CASE INTRO
+══════════════════ -->
+<section class="s center-slide" id="s05">
+  <div class="abs-wm r d1 wm-group">
+    <span class="wm-n">Hepz's Content House</span>
+    <span class="wm-t">What we've done</span>
+  </div>
+  <div class="center-inner">
+    <span class="bb center-h1 r d2" style="font-size: clamp(48px, 8vw, 110px);">ACCOUNT TRANSFORMATIONS.</span>
+    <span class="pfi center-h2 r d3" style="font-size: clamp(32px, 5.5vw, 72px);">and case studies.</span>
+    <div class="center-rule r d4"></div>
+    <p class="center-pitch r d5" style="font-family: 'Inter', sans-serif; font-style: normal; font-weight: 300; font-size: 16px;">Three accounts. Three starting points. The same result: strategy built to grow, and a team that executes it every single day.</p>
+  </div>
+  <div class="ft"><span>Hepz's Content House</span><span>hephzii0405@gmail.com · +91 97904 29699</span></div>
+</section>
+
+<!-- ══════════════════
+     06 — SOUNDARYA
+══════════════════ -->
+<section class="s cs-s" id="s06">
+  <div class="cs-top">
+    <div class="cs-top-l">
+      <p class="lbl r d1" style="margin-bottom:16px;">Case study · 01 of 03</p>
+      <span class="bb cs-name-bb r d2">SOUNDARYA</span>
+      <span class="pfi cs-name-pf r d2">Balasubramani</span>
+      <span class="cs-handle r d3">@thecuriousmaverick</span>
+      <span class="cs-niche r d3">3× Author · Keynote Speaker · Immigration & Career Coach (India-US)</span>
+    </div>
+    <div class="cs-top-r r d4">
+      <div><span class="cs-stat-n">70%</span><span class="cs-stat-l">DM-to-call rate</span></div>
+      <div><span class="cs-stat-n">13.8M</span><span class="cs-stat-l">Single reel views</span></div>
+      <div><span class="cs-stat-n">135K</span><span class="cs-stat-l">Followers</span></div>
+    </div>
+  </div>
+  <div class="narr-row r d3">
+    <div class="nc"><p class="nc-phase">Where they were</p><p class="nc-num">13</p><p class="nc-unit">followers</p><p class="nc-desc">Real expertise. Zero Instagram strategy. Starting completely from scratch with no content system in place.</p></div>
+    <div class="nc"><p class="nc-phase">What we did</p><p class="nc-num">PILLARS</p><p class="nc-unit">& scripting</p><p class="nc-desc">Content pillars built. Hook strategy implemented. Scripted reels tailored for wider distribution beyond existing audience.</p></div>
+    <div class="nc pk"><p class="nc-phase">The growth</p><p class="nc-num">135K</p><p class="nc-unit">followers</p><p class="nc-desc">Viral reels. 70% DM-to-call conversion. Brand deals inbound. YouTube scaled to 52K subscribers.</p></div>
+  </div>
+  <div class="ft"><span>Hepz's Content House</span><span>hephzii0405@gmail.com · +91 97904 29699</span></div>
+</section>
+
+<!-- ══════════════════
+     07 — PRITESH
+══════════════════ -->
+<section class="s cs-s" id="s07">
+  <div class="cs-top">
+    <div class="cs-top-l">
+      <p class="lbl r d1" style="margin-bottom:16px;">Case study · 02 of 03</p>
+      <span class="bb cs-name-bb r d2">PRITESH JAGANI</span>
+      <span class="pfi cs-name-pf r d2">Yudi J</span>
+      <span class="cs-handle r d3">@yudi.j</span>
+      <span class="cs-niche r d3">Study Abroad & Career Coach · Investor · Mentor · 5200+ students</span>
+    </div>
+    <div class="cs-top-r r d4">
+      <div><span class="cs-stat-n">1.6M</span><span class="cs-stat-l">Single reel views</span></div>
+      <div><span class="cs-stat-n">231K</span><span class="cs-stat-l">Followers grown</span></div>
+      <div><span class="cs-stat-n">5200+</span><span class="cs-stat-l">Paying students</span></div>
+    </div>
+  </div>
+  <div class="narr-row r d3">
+    <div class="nc"><p class="nc-phase">Where they were</p><p class="nc-num">PLATEAU</p><p class="nc-unit">in growth</p><p class="nc-desc">Good offline brand. Instagram existed but content lacked a distribution strategy. Ideas were strong, hook execution was weak.</p></div>
+    <div class="nc"><p class="nc-phase">What we did</p><p class="nc-num">FORMAT</p><p class="nc-unit">redesign</p><p class="nc-desc">Introduced the Monica character for immigrant finance. First reel: 470K+ views immediately. A signature format was born.</p></div>
+    <div class="nc pk"><p class="nc-phase">The growth</p><p class="nc-num">231K</p><p class="nc-unit">followers</p><p class="nc-desc">Reels consistently hitting 300K-1.6M. Monica became the account's signature. 5200+ paying students enrolled.</p></div>
+  </div>
+  <div class="ft"><span>Hepz's Content House</span><span>hephzii0405@gmail.com · +91 97904 29699</span></div>
+</section>
+
+<!-- ══════════════════
+     08 — TRENDS.TIC
+══════════════════ -->
+<section class="s cs-s" id="s08">
+  <div class="cs-top">
+    <div class="cs-top-l">
+      <p class="lbl r d1" style="margin-bottom:16px;">Case study · 03 of 03</p>
+      <span class="bb cs-name-bb r d2">TRENDS.TIC</span>
+      <span class="pfi cs-name-pf r d2">Meta Verified ✓</span>
+      <span class="cs-handle r d3">@trends.tic</span>
+      <span class="cs-niche r d3">Digital Creator · Trending topics, tech, and everything worth knowing</span>
+    </div>
+    <div class="cs-top-r r d4">
+      <div><span class="cs-stat-n">35→12.3K</span><span class="cs-stat-l">Follower growth</span></div>
+      <div><span class="cs-stat-n">VERIFIED</span><span class="cs-stat-l">Meta badge earned</span></div>
+    </div>
+  </div>
+  <div class="narr-row r d3">
+    <div class="nc"><p class="nc-phase">Where they were</p><p class="nc-num">35</p><p class="nc-unit">followers</p><p class="nc-desc">Brand new page. Zero history. Built entirely from scratch looking to establish a highly engaged community quickly.</p></div>
+    <div class="nc"><p class="nc-phase">What we did</p><p class="nc-num">AI AVATAR</p><p class="nc-unit">& daily posts</p><p class="nc-desc">HeyGen AI avatar built for consistency. Daily posting with a content flywheel strategy to serve as a TOFU funnel.</p></div>
+    <div class="nc pk"><p class="nc-phase">The growth</p><p class="nc-num">12.3K</p><p class="nc-unit">followers</p><p class="nc-desc">Meta verified. Rapid growth from zero. Now successfully serving as the top-of-funnel for The Infinity Canvas agency.</p></div>
+  </div>
+  <div class="ft"><span>Hepz's Content House</span><span>hephzii0405@gmail.com · +91 97904 29699</span></div>
+</section>
+
+<!-- ══════════════════
+     09 — PIVOT
+══════════════════ -->
+<section class="s center-slide" id="s09">
+  <div class="abs-wm r d1 wm-group">
+    <span class="wm-n">Hepz's Content House</span>
+    <span class="wm-t">Which brings us to you</span>
+  </div>
+  <div class="center-inner">
+    <div class="ph r d2" style="width: 96px; height: 96px; border-radius: 50%; margin-bottom: 32px; border-color: var(--line2); background: var(--bg2);">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+      <p style="font-size: 8px;">Your Brand</p>
+    </div>
+    <span class="bb center-h1 r d3">YOUR INSTAGRAM</span>
+    <span class="pfi center-h2 r d4">could be doing so much more.</span>
+  </div>
+  <div class="ft"><span>Hepz's Content House</span><span>hephzii0405@gmail.com · +91 97904 29699</span></div>
+</section>
+
+<!-- ══════════════════
+     10 — THREE THINGS
+══════════════════ -->
+<section class="s" id="s10">
+  <div class="grid-head">
+    <div>
+      <div class="wm-group r d1">
+        <span class="wm-n">Hepz's Content House</span>
+        <span class="wm-t">What we found</span>
+      </div>
+      <span class="bb grid-h1 r d2">THREE THINGS</span>
+      <span class="grid-h2 r d2">holding you back.</span>
+    </div>
+    <div class="grid-note r d3">Customise cards 01 & 02<br>before each call with<br>specific observations<br>from this account.</div>
+  </div>
+  <div class="g-row cols-3">
+    <div class="g-card prob r d4"><div class="prob-bg">01</div><p class="prob-tag">Problem one · Customise</p><p class="prob-title">[ Your specific hook observation ]</p><p class="prob-body">Replace with a precise finding. E.g. "Your last 9 reels open with talking-head footage and no text hook. You're losing 60-70% of reach before anyone hears your voice."</p></div>
+    <div class="g-card prob r d5"><div class="prob-bg">02</div><p class="prob-tag">Problem two · Customise</p><p class="prob-title">[ Your specific strategy observation ]</p><p class="prob-body">Replace with the strategy gap you spotted. E.g. "You have strong expertise content but zero conversion content, nothing that tells viewers what to do next or why to book."</p></div>
+    <div class="g-card prob custom r d6"><div class="prob-bg">03</div><p class="prob-tag">Problem three · Universal</p><p class="prob-title">The credibility ceiling</p><p class="prob-body">Your expertise is real. But a potential client who finds you on Instagram today sees content that doesn't fully reflect it. First impressions determine whether they book before they ever speak to you.</p></div>
+  </div>
+  <div class="ft"><span>Hepz's Content House</span><span>hephzii0405@gmail.com · +91 97904 29699</span></div>
+</section>
+
+<!-- ══════════════════
+     11 — WHAT WE CAN DO
+══════════════════ -->
+<section class="s" id="s11">
+  <div class="grid-head">
+    <div>
+      <div class="wm-group r d1">
+        <span class="wm-n">Hepz's Content House</span>
+        <span class="wm-t">What we propose</span>
+      </div>
+      <span class="bb grid-h1 r d2">HERE'S WHAT</span>
+      <span class="grid-h2 r d2">we can do for you.</span>
+    </div>
+    <p class="grid-note alt r d3">We don't promise specific numbers. We bring strategy, execution, and consistency every day. The case studies show what that looks like in practice.</p>
+  </div>
+  <div class="g-row cols-4 cap-grid">
+    <div class="g-card cap r d3"><span class="cap-n">01</span><p class="cap-t">Content strategy built for your niche</p><p class="cap-b">A strategy specific to your audience, offer, and goals. Content pillars, hook styles, posting frequency, competitor gap analysis, all tailored to you, never templated.</p></div>
+    <div class="g-card cap r d4"><span class="cap-n">02</span><p class="cap-t">Scripts written in your voice</p><p class="cap-b">Every reel scripted by us. We study how you speak and what your audience responds to. It sounds like you because we make it sound like you.</p></div>
+    <div class="g-card cap r d5"><span class="cap-n">03</span><p class="cap-t">End-to-end execution (Full Takeover)</p><p class="cap-b">Editing, graphics, shoot direction, posting, stories, community management. Your Instagram runs 24/7 while you focus on your business.</p></div>
+    <div class="g-card cap r d6"><span class="cap-n">04</span><p class="cap-t">Monthly performance reviews</p><p class="cap-b">We track what the algorithm rewards and pivot accordingly. Reports show exactly what changed and why. No vanity metrics, only what moves your business forward.</p></div>
+  </div>
+  <div class="ft"><span>Hepz's Content House</span><span>hephzii0405@gmail.com · +91 97904 29699</span></div>
+</section>
+
+<!-- ══════════════════
+     12 — TESTIMONIAL TICKER
+══════════════════ -->
+<section class="s" id="s12">
+  <div class="grid-head">
+    <div>
+      <div class="wm-group r d1">
+        <span class="wm-n">Hepz's Content House</span>
+        <span class="wm-t">What clients say</span>
+      </div>
+      <span class="bb grid-h1 r d2">DON'T TAKE</span>
+      <span class="grid-h2 r d2">our word for it.</span>
+    </div>
+  </div>
+  
+  <div class="testi-mwrap r d3">
+    <div class="testi-mrow" id="testi-ticker">
+      <!-- Testimonials pulled from portfolio -->
+      <div class="testi-card">
+        <div class="t2qm">"</div>
+        <p class="t2txt">She has a rare skill of refining ideas you already have while also bringing in fresh perspectives and angles you didn't even think of. Her work directly contributed to consistent audience growth and strong viewership, which every creator cares deeply about.</p>
+        <div class="t2attr"><div class="t2av">PJ</div><div><span class="t2nm">Pritesh Jagani</span><span class="t2rl">Study Abroad & Career Coach · 231K followers</span></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="t2qm">"</div>
+        <p class="t2txt">Hephzibah will surprise you. On our first call she was quiet and soft-spoken, but she turned out to be one of the most hardworking and focused people I've met, especially when it comes to understanding trends and writing content that captures human emotion. It was a joy to work with her.</p>
+        <div class="t2attr"><div class="t2av">SB</div><div><span class="t2nm">Soundarya Balasubramani</span><span class="t2rl">3× Author · Keynote Speaker</span></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="t2qm">"</div>
+        <p class="t2txt">DO NOT hire this team if you are not serious about Instagram content creation. Because they would take your account to a few hundred thousand followers and you might struggle to handle the attention. She can effortlessly handle end-to-end of Instagram content creation.</p>
+        <div class="t2attr"><div class="t2av">AJ</div><div><span class="t2nm">Aravind Jagannathan</span><span class="t2rl">Marketer · Entrepreneur · Ex-Zoho</span></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="t2qm">"</div>
+        <p class="t2txt">Hephzibah is a good listener and understands the tone of voice of a brand. Her social media content strategy is so in place and works well to increase one's visibility and engagement. I highly recommend her to get on your radar.</p>
+        <div class="t2attr"><div class="t2av">NS</div><div><span class="t2nm">Neha Shah</span><span class="t2rl">Founder · Indian-rooted Nutrition</span></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="t2qm">"</div>
+        <p class="t2txt">One of her key strengths lies in her deep understanding of the Instagram algorithm. Thanks to her strategic approach, our content has not only stood out but has significantly boosted online engagement. She is an asset to any team.</p>
+        <div class="t2attr"><div class="t2av">PT</div><div><span class="t2nm">Priya Thahir</span><span class="t2rl">CEO & Founder, Iraivi Academy</span></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="t2qm">"</div>
+        <p class="t2txt">She helped us identify viral trends and humor-based content related to our niche, which helped us a lot. Thanks to her guidance, we were able to dramatically increase our online engagement when we implemented the ideas she shared.</p>
+        <div class="t2attr"><div class="t2av">NP</div><div><span class="t2nm">Naveen Photography</span><span class="t2rl">Photography Business</span></div></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ft"><span>Hepz's Content House</span><span>hephzii0405@gmail.com · +91 97904 29699</span></div>
+</section>
+
+<!-- ══════════════════
+     13 — THE TEAM
+══════════════════ -->
+<section class="s" id="s13">
+  <div class="grid-head">
+    <div>
+      <div class="wm-group r d1">
+        <span class="wm-n">Hepz's Content House</span>
+        <span class="wm-t">The team</span>
+      </div>
+      <span class="bb grid-h1 r d2">THE PEOPLE</span>
+      <span class="grid-h2 r d2">behind the work.</span>
+    </div>
+  </div>
+  <div class="g-row cols-4 tgrid">
+    <div class="g-card tm f r d3"><div class="tm-av">HE</div><p class="tm-role">Founder & CEO</p><p class="tm-name">HEPHZIBAH EDWIN</p><div class="tm-rule"></div><p class="tm-desc">Instagram strategist, scriptwriter, and creative director. 8 years building accounts from scratch, including her own from zero to 225K after losing everything. The strategy brain behind every account we run.</p></div>
+    <div class="g-card tm r d4"><div class="tm-av">VE</div><p class="tm-role">Video Editing</p><p class="tm-name">ADD NAMES</p><div class="tm-rule"></div><p class="tm-desc">Specialists in Reels editing, transitions, captions, and sound design built for the algorithm. Every edit is intentional, nothing aesthetic by accident.</p><p class="tm-ph">Add photo + name</p></div>
+    <div class="g-card tm r d5"><div class="tm-av">VT</div><p class="tm-role">Videography</p><p class="tm-name">ADD NAMES</p><div class="tm-rule"></div><p class="tm-desc">On-ground shoot direction, framing, and production. We show up, we direct, you deliver your best on camera.</p><p class="tm-ph">Add photo + name</p></div>
+    <div class="g-card tm r d6"><div class="tm-av">SM</div><p class="tm-role">Social Media Mgmt</p><p class="tm-name">ADD NAMES</p><div class="tm-rule"></div><p class="tm-desc">Daily posting, story management, community engagement, and DM handling. Your Instagram runs 24/7 while you focus on what you do best.</p><p class="tm-ph">Add photo + name</p></div>
+  </div>
+  <div class="ft"><span>Hepz's Content House</span><span>hephzii0405@gmail.com · +91 97904 29699</span></div>
+</section>
+
+<!-- ══════════════════
+     14 — CLOSE
+══════════════════ -->
+<section class="s center-slide" id="s14">
+  <div class="abs-wm r d1 wm-group">
+    <span class="wm-n">Hepz's Content House</span>
+    <span class="wm-t">Let's go</span>
+  </div>
+  <div class="center-inner">
+    <span class="bb center-h1 r d2" style="font-size: clamp(48px, 8vw, 110px);">LET'S BUILD THE</span>
+    <span class="pfi center-h2 r d3" style="font-size: clamp(32px, 5.5vw, 72px);">social media Instagram presence you actually deserve.</span>
+    <p class="r d4" style="font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: .15em; color: var(--w3); text-transform: uppercase; margin-bottom: 56px;">Start with a free 20-minute account audit.</p>
+    
+    <div class="r d5" style="display: flex; flex-direction: row; align-items: center; justify-content: center; flex-wrap: wrap; gap: 32px; background: var(--bg2); padding: 20px 48px; border-radius: 100px; border: 1px solid var(--line2);">
+        <span style="font-family: 'Inter', sans-serif; font-size: clamp(16px, 2vw, 20px); font-weight: 400; letter-spacing: .05em; color: var(--w);">hephzii0405@gmail.com</span>
+        <div style="width: 1px; height: 24px; background: var(--line2);"></div>
+        <span style="font-family: 'Inter', sans-serif; font-size: clamp(16px, 2vw, 20px); font-weight: 500; letter-spacing: .05em; color: var(--w);">+91 97904 29699</span>
+    </div>
+  </div>
+  <div class="ft"><span>Hepz's Content House</span><span>hephzii0405@gmail.com · +91 97904 29699</span></div>
+</section>
+
+<script>
+const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+(function t(){cd.style.left=mx+'px';cd.style.top=my+'px';rx+=(mx-rx)*.13;ry+=(my-ry)*.13;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(t)})();
+
+// Portfolio Brands populated directly from the provided PDF
+const b1=['Purdue University', 'Galatta', 'Sony Music', 'Fully Filmy', 'Replit', 'NXT Wave', 'Manifest', 'AECC', 'Great Learning', 'Plaud', 'T1 Digital', 'Living With Stories', 'Yeka', 'Visitors Coverage', 'Lawfully'];
+const b2=['OpenAtlas', 'ETS TOEFL', 'Iraivi', 'Skillware Factory', 'Travelopod', 'Unshackled', 'TutorBin', 'MPOWER Financing', 'Moj', 'Documitra', 'Weee!', 'Migrate Mate', 'Crobo', 'Arnifi'];
+
+['mr1','mr2'].forEach((id,i)=>{const br=i===0?b1:b2;[...br,...br,...br].forEach(b=>{const s=document.createElement('span');s.className='mc';s.textContent=b;document.getElementById(id).appendChild(s)})});
+
+// Duplicate Testimonial Cards for seamless looping
+const ticker = document.getElementById('testi-ticker');
+if(ticker) {
+  const cards = Array.from(ticker.children);
+  cards.forEach(card => {
+    ticker.appendChild(card.cloneNode(true));
+  });
+}
+
+const slides=[...document.querySelectorAll('.s')];
+const nav=document.getElementById('nav'),cn=document.getElementById('cn');
+const lbl=['Cover','Who we are','Brands','The offers','What we\'ve done','Soundarya','Pritesh','Trends.TIC','Which brings us…','The problems','What we propose','Testimonials','The team','Let\'s go'];
+const pips=slides.map((sl,i)=>{
+  const b=document.createElement('button');
+  b.className='pip'+(i===0?' on':'');
+  b.setAttribute('data-l',lbl[i]||'');
+  b.onclick=()=>sl.scrollIntoView({behavior:'smooth'});
+  nav.appendChild(b);return b;
+});
+
+// Fixed IntersectionObserver to ensure animations fire reliably on tall mobile slides
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      const i=slides.indexOf(e.target);
+      pips.forEach((p,j)=>p.classList.toggle('on',j===i));
+      cn.textContent=String(i+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+      // Fire animation instantly as soon as 5% of the element is visible
+      e.target.querySelectorAll('.r').forEach(el=>el.classList.add('in'));
+    }
+  });
+},{threshold: 0.05}); // Lowered from 0.45 to 0.05 to fix mobile blank slide issue
+
+slides.forEach(sl=>io.observe(sl));
+setTimeout(()=>slides[0].querySelectorAll('.r').forEach(el=>el.classList.add('in')),60);
+
+</script>
+</body>
+</html>
